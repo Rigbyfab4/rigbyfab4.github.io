@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joshua McHenry — Data &amp; Analytics Leader</title>
+  <style>
+    /* ── Reset & Variables ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #070e1b;
+      --bg-mid:   #0c1828;
+      --bg-card:  rgba(255,255,255,0.03);
+      --teal:     #00d4aa;
+      --blue:     #4fb8ff;
+      --glow:     rgba(0,212,170,0.12);
+      --txt:      #dde7f2;
+      --txt-sub:  #6e8aa0;
+      --txt-mute: #3d5568;
+      --border:   rgba(255,255,255,0.07);
+      --border-h: rgba(0,212,170,0.38);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ───────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 900;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 5%;
+      transition: background .3s, border-color .3s, backdrop-filter .3s;
+    }
+    .nav.stuck {
+      background: rgba(7,14,27,.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 1.1rem; font-weight: 700; color: var(--txt);
+      text-decoration: none; letter-spacing: -.2px;
+    }
+    .nav-logo span { color: var(--teal); }
+    .nav-links { list-style: none; display: flex; gap: 2.2rem; }
+    .nav-links a {
+      color: var(--txt-sub); text-decoration: none;
+      font-size: .875rem; letter-spacing: .2px;
+      transition: color .2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px; background: var(--teal);
+      transition: width .2s;
+    }
+    .nav-links a:hover { color: var(--txt); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      border: 1px solid var(--border) !important;
+      color: var(--txt) !important;
+      padding: .38rem 1.1rem;
+      border-radius: 6px;
+      transition: border-color .2s, background .2s !important;
+    }
+    .nav-cta:hover {
+      border-color: var(--teal) !important;
+      background: var(--glow) !important;
+      color: var(--teal) !important;
+    }
+    .nav-cta::after { display: none !important; }
+
+    /* ── Hero ──────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 7rem 5% 5rem;
+      overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+    }
+    .hero-glow-a {
+      position: absolute; pointer-events: none;
+      width: 700px; height: 700px; top: -250px; right: -150px;
+      background: radial-gradient(circle, rgba(0,212,170,.07) 0%, transparent 70%);
+    }
+    .hero-glow-b {
+      position: absolute; pointer-events: none;
+      width: 500px; height: 500px; bottom: -100px; left: 5%;
+      background: radial-gradient(circle, rgba(79,184,255,.05) 0%, transparent 70%);
+    }
+    .hero-body {
+      position: relative; z-index: 2;
+      max-width: 860px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(0,212,170,.07);
+      border: 1px solid rgba(0,212,170,.22);
+      border-radius: 100px;
+      padding: .3rem .9rem;
+      font-size: .7rem; color: var(--teal);
+      letter-spacing: 1.8px; text-transform: uppercase;
+      margin-bottom: 1.8rem;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--teal); border-radius: 50%;
+      animation: blink 2.2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; } 50% { opacity: .25; }
+    }
+    .hero-name {
+      font-size: clamp(3.8rem, 10vw, 8rem);
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -3.5px;
+      margin-bottom: 1.4rem;
+    }
+    .hero-name-first { display: block; color: var(--txt); }
+    .hero-name-last {
+      display: block;
+      background: linear-gradient(130deg, var(--teal) 0%, var(--blue) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-role {
+      font-size: clamp(.9rem, 2vw, 1.15rem);
+      color: var(--txt-sub); margin-bottom: 1.1rem; font-weight: 400;
+    }
+    .hero-role strong { color: var(--txt); font-weight: 600; }
+    .hero-pitch {
+      font-size: clamp(1.05rem, 2.4vw, 1.45rem);
+      color: var(--txt-sub); font-weight: 300;
+      line-height: 1.7; max-width: 580px; margin-bottom: 2.4rem;
+    }
+    .hero-pitch strong { color: var(--txt); font-weight: 500; }
+    .hero-actions { display: flex; gap: .85rem; flex-wrap: wrap; margin-bottom: 3.5rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      text-decoration: none; border-radius: 8px;
+      font-weight: 600; font-size: .875rem;
+      padding: .7rem 1.7rem;
+      transition: all .22s; cursor: pointer;
+    }
+    .btn-fill {
+      background: linear-gradient(130deg, var(--teal), var(--blue));
+      color: #06101f;
+    }
+    .btn-fill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,212,170,.32);
+    }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--txt); background: transparent;
+    }
+    .btn-ghost:hover {
+      border-color: rgba(0,212,170,.45);
+      background: var(--glow); color: var(--teal);
+    }
+
+    .hero-stats { display: flex; gap: 3rem; }
+    .stat-num {
+      font-size: 2.4rem; font-weight: 900; line-height: 1;
+      letter-spacing: -1px;
+      background: linear-gradient(130deg, var(--teal), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-lbl {
+      font-size: .72rem; color: var(--txt-mute);
+      text-transform: uppercase; letter-spacing: 1.2px;
+      margin-top: .15rem;
+    }
+
+    /* ── Section Utilities ─────────────────────────────────── */
+    .section { padding: 7rem 5%; }
+    .section-alt { background: var(--bg-mid); }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: .68rem; color: var(--teal);
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: .65rem;
+    }
+    .section-h {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 800; line-height: 1.08;
+      letter-spacing: -1.5px;
+    }
+    .section-sub {
+      margin-top: .9rem; font-size: 1.05rem;
+      color: var(--txt-sub); max-width: 580px; line-height: 1.75;
+    }
+
+    /* ── About ─────────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 5rem; align-items: start;
+      margin-top: 3.5rem;
+    }
+    .about-prose p {
+      font-size: 1.05rem; color: var(--txt-sub);
+      line-height: 1.88; margin-bottom: 1.35rem;
+    }
+    .about-prose p strong { color: var(--txt); font-weight: 600; }
+    .about-cards { display: flex; flex-direction: column; gap: 1.1rem; }
+    .about-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.4rem;
+      transition: border-color .3s, background .3s, transform .3s;
+    }
+    .about-card:hover {
+      border-color: var(--border-h);
+      background: rgba(0,212,170,.04);
+      transform: translateX(5px);
+    }
+    .ac-emoji { font-size: 1.35rem; margin-bottom: .5rem; display: block; }
+    .ac-title {
+      font-size: .95rem; font-weight: 700;
+      color: var(--txt); margin-bottom: .35rem;
+    }
+    .ac-body { font-size: .845rem; color: var(--txt-sub); line-height: 1.65; }
+
+    /* ── Quote ─────────────────────────────────────────────── */
+    .quote-wrap {
+      padding: 5rem 5%;
+      background: linear-gradient(135deg,
+        rgba(0,212,170,.04) 0%, rgba(79,184,255,.04) 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .quote-inner { max-width: 780px; margin: 0 auto; text-align: center; }
+    .q-mark {
+      display: block; font-family: Georgia, serif;
+      font-size: 5rem; line-height: .45;
+      color: var(--teal); opacity: .28;
+      margin-bottom: .75rem;
+    }
+    .q-text {
+      font-size: clamp(1.35rem, 3.2vw, 2.05rem);
+      font-weight: 300; color: var(--txt);
+      line-height: 1.55; letter-spacing: -.4px;
+    }
+    .q-text em { font-style: italic; color: var(--teal); }
+
+    /* ── Timeline ──────────────────────────────────────────── */
+    .timeline { position: relative; padding-left: 1.8rem; margin-top: 3.5rem; }
+    .timeline-line {
+      position: absolute; left: 0; top: 12px; bottom: 12px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--teal) 0%, var(--blue) 55%, transparent 100%);
+    }
+    .t-entry {
+      position: relative; padding: 0 0 3rem 2.4rem;
+      opacity: 0; transform: translateX(-18px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .t-entry.in { opacity: 1; transform: translateX(0); }
+    .t-entry:last-child { padding-bottom: 0; }
+    .t-dot {
+      position: absolute; left: -7px; top: 7px;
+      width: 16px; height: 16px;
+      background: var(--bg-mid); border: 2px solid var(--teal);
+      border-radius: 50%;
+      transition: background .3s, box-shadow .3s;
+    }
+    .t-entry:first-child .t-dot {
+      background: var(--teal);
+      box-shadow: 0 0 14px rgba(0,212,170,.5);
+    }
+    .t-period {
+      font-size: .7rem; color: var(--txt-mute);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      margin-bottom: .35rem;
+    }
+    .t-tag {
+      display: inline-block;
+      background: rgba(0,212,170,.1);
+      border: 1px solid rgba(0,212,170,.2);
+      color: var(--teal);
+      font-size: .65rem; text-transform: uppercase; letter-spacing: 1.5px;
+      padding: .18rem .6rem; border-radius: 50px;
+      margin-bottom: .45rem;
+    }
+    .t-title {
+      font-size: 1.08rem; font-weight: 700;
+      color: var(--txt); line-height: 1.3; margin-bottom: .25rem;
+    }
+    .t-org {
+      font-size: .875rem; color: var(--teal);
+      font-weight: 500; margin-bottom: .7rem;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .t-org svg { flex-shrink: 0; }
+    .t-desc {
+      font-size: .9rem; color: var(--txt-sub);
+      line-height: 1.72; max-width: 660px;
+    }
+
+    /* ── Skills ────────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem; margin-top: 3.5rem;
+    }
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.9rem;
+      opacity: 0; transform: translateY(22px);
+      transition: opacity .5s ease, transform .5s ease,
+                  border-color .3s, background .3s;
+    }
+    .skill-card.in { opacity: 1; transform: translateY(0); }
+    .skill-card:hover {
+      border-color: rgba(0,212,170,.28);
+      background: rgba(0,212,170,.032);
+    }
+    .sk-icon {
+      width: 46px; height: 46px; border-radius: 10px;
+      background: linear-gradient(135deg,
+        rgba(0,212,170,.14), rgba(79,184,255,.14));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .sk-title { font-size: 1rem; font-weight: 700; margin-bottom: .45rem; line-height: 1.3; }
+    .sk-body { font-size: .84rem; color: var(--txt-sub); line-height: 1.65; margin-bottom: .95rem; }
+    .sk-track {
+      height: 3px; background: rgba(255,255,255,.06);
+      border-radius: 50px; overflow: hidden;
+    }
+    .sk-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+      border-radius: 50px; width: 0;
+      transition: width 1.3s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── Education ─────────────────────────────────────────── */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem; margin-top: 3.5rem;
+    }
+    .edu-badge-inprogress {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .64rem; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--teal); border: 1px solid rgba(0,212,170,.28);
+      border-radius: 50px; padding: .18rem .65rem;
+      margin-bottom: 1.2rem;
+    }
+    .edu-badge-inprogress .badge-dot { width: 5px; height: 5px; }
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.4rem;
+      opacity: 0; transform: translateY(22px);
+      transition: opacity .5s ease, transform .5s ease,
+                  border-color .3s, box-shadow .3s;
+    }
+    .edu-card.in { opacity: 1; transform: translateY(0); }
+    .edu-card:hover {
+      border-color: rgba(79,184,255,.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,.4);
+    }
+    .edu-badge {
+      display: inline-block; font-size: .64rem;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: var(--blue); border: 1px solid rgba(79,184,255,.22);
+      border-radius: 50px; padding: .18rem .65rem;
+      margin-bottom: 1.2rem;
+    }
+    .edu-school {
+      font-size: 1.3rem; font-weight: 800;
+      letter-spacing: -.5px; margin-bottom: .4rem;
+    }
+    .edu-degree { font-size: .9rem; color: var(--teal); font-weight: 500; margin-bottom: .25rem; }
+    .edu-detail { font-size: .78rem; color: var(--txt-mute); }
+
+    /* ── Contact ───────────────────────────────────────────── */
+    #contact { text-align: center; }
+    .contact-inner { max-width: 640px; margin: 0 auto; }
+    .contact-body {
+      font-size: 1.05rem; color: var(--txt-sub);
+      line-height: 1.8; margin: 1.5rem 0 2.4rem;
+    }
+    .contact-body strong { color: var(--txt); }
+    .contact-btns { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+    /* ── Footer ────────────────────────────────────────────── */
+    footer {
+      padding: 1.8rem 5%;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-l { font-size: .88rem; font-weight: 600; color: var(--txt); }
+    .footer-r { font-size: .82rem; color: var(--txt-mute); }
+
+    /* ── Reveal Utility ────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ────────────────────────────────────────── */
+    @media (max-width: 950px) {
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 2rem; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+      .stat-num { font-size: 1.9rem; }
+      .hero-name { letter-spacing: -2px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ══════════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">Josh <span>McHenry</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#career">Career</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact" class="nav-cta">Let's Connect</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-glow-a"></div>
+  <div class="hero-glow-b"></div>
+
+  <div class="hero-body">
+    <h1 class="hero-name">
+      <span class="hero-name-first">Joshua</span>
+      <span class="hero-name-last">McHenry</span>
+    </h1>
+
+    <p class="hero-role">
+      <strong>Manager, Marketing Data Stewardship &amp; Analytics</strong>
+      &nbsp;·&nbsp; L.L.Bean &nbsp;·&nbsp; Maine
+    </p>
+
+    <p class="hero-pitch">
+      I turn <strong>customer data into competitive strategy</strong> —
+      with the rare perspective of someone who started on the store floor
+      and built up through every layer of the business.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#career" class="btn btn-fill">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+        See My Journey
+      </a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num" data-target="9" data-suffix="+">0</div>
+        <div class="stat-lbl">Roles Progressed</div>
+      </div>
+      <div>
+        <div class="stat-num" data-target="3" data-suffix="">0</div>
+        <div class="stat-lbl">Academic Credentials</div>
+      </div>
+      <div>
+        <div class="stat-num" data-target="1" data-suffix="">0</div>
+        <div class="stat-lbl">Iconic Brand, Deep Expertise</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ══════════════════════════════════════════════════ -->
+<section id="about" class="section">
+  <div class="reveal">
+    <span class="eyebrow">About</span>
+    <h2 class="section-h">The floor-to-data story<br>behind the work</h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-prose reveal">
+      <p>
+        Most analytics leaders come up through data. I came up through
+        <strong>people</strong> — through customers, merchandise tables, store
+        floors, and the day-to-day reality of specialty retail. That grounding
+        is what makes the difference.
+      </p>
+      <p>
+        I started my career at L.L.Bean in a customer-facing store role,
+        progressed through the full arc of retail merchandising, then made a
+        deliberate pivot into data and analytics — carrying everything I'd learned
+        about <strong>how the business actually works</strong> into every
+        dashboard, dataset, and recommendation since.
+      </p>
+      <p>
+        Today I lead the Customer Data Stewardship team, overseeing how L.L.Bean's
+        customer data is governed, protected, and strategically activated. I was a
+        <strong>founding Day 0 member of Marketing Modernization</strong> — a
+        cross-functional program reimagining how technology, strategy, and human
+        insight come together to center the customer in every decision.
+      </p>
+      <p>
+        What sets me apart is not just technical skill. It's the ability to
+        <strong>bridge data systems and business reality</strong>, lead teams with
+        empathy and clarity, and turn complex information into decisions that
+        actually move the needle.
+      </p>
+    </div>
+
+    <div class="about-cards">
+      <div class="about-card reveal">
+        <span class="ac-emoji">🎯</span>
+        <div class="ac-title">Customer Data Strategist</div>
+        <div class="ac-body">End-to-end ownership of how customer data is captured, governed, privacy-protected, and activated to drive measurable business outcomes.</div>
+      </div>
+      <div class="about-card reveal">
+        <span class="ac-emoji">🔒</span>
+        <div class="ac-title">Privacy &amp; Compliance Leader</div>
+        <div class="ac-body">Expert administration of consumer data privacy processes — compliant, ethical, and trustworthy data practices at enterprise scale.</div>
+      </div>
+      <div class="about-card reveal">
+        <span class="ac-emoji">🤝</span>
+        <div class="ac-title">Cross-Functional Connector</div>
+        <div class="ac-body">Proven ability to unite marketing, technology, merchandising, and analytics teams around shared goals and customer-centered outcomes.</div>
+      </div>
+      <div class="about-card reveal">
+        <span class="ac-emoji">🏔️</span>
+        <div class="ac-title">Ground-Up Retail Expert</div>
+        <div class="ac-body">Nine distinct roles across the full retail spectrum — from store operations to executive analytics — context no classroom can teach.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUOTE ══════════════════════════════════════════════════ -->
+<div class="quote-wrap">
+  <div class="quote-inner reveal">
+    <span class="q-mark">"</span>
+    <p class="q-text">
+      The best data strategy doesn't begin with a dashboard —<br>
+      it begins with <em>understanding the people behind the data.</em>
+    </p>
+  </div>
+</div>
+
+<!-- ═══ CAREER ═════════════════════════════════════════════════ -->
+<section id="career" class="section section-alt">
+  <div class="reveal">
+    <span class="eyebrow">Career Journey</span>
+    <h2 class="section-h">One company.<br>Nine chapters.</h2>
+    <p class="section-sub">
+      A career built through commitment, curiosity, and continuous growth —
+      from the store floor at L.L.Bean to leading its customer data strategy.
+    </p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-line"></div>
+
+    <div class="t-entry">
+      <div class="t-dot"></div>
+      <div class="t-period">Present</div>
+      <div class="t-tag">Current Role</div>
+      <div class="t-title">Manager, Marketing Data Stewardship, Insights &amp; Analytics</div>
+      <div class="t-org">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--teal)"><circle cx="12" cy="12" r="10"/></svg>
+        L.L.Bean
+      </div>
+      <div class="t-desc">
+        Leading the Customer Data Stewardship team with strategic oversight of data governance,
+        consumer privacy compliance, and cross-functional analytics initiatives. Founding Day 0 member
+        of L.L.Bean's Marketing Modernization program — a company-wide initiative reimagining how
+        people, technology, and strategy come together to center the customer.
+      </div>
+    </div>
+
+    <div class="t-entry">
+      <div class="t-dot"></div>
+      <div class="t-period">Prior Role</div>
+      <div class="t-title">Lead Enterprise Information Management Business Analyst</div>
+      <div class="t-org">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--teal)"><circle cx="12" cy="12" r="10"/></svg>
+        L.L.Bean
+      </div>
+      <div class="t-desc">
+        Led enterprise-wide information management strategy — aligning data architecture, quality
+        standards, and governance practices with business needs across merchandising, marketing,
+        and customer experience.
+      </div>
+    </div>
+
+    <div class="t-entry">
+      <div class="t-dot"></div>
+      <div class="t-period">Prior Role</div>
+      <div class="t-title">Senior Business Intelligence Analyst</div>
+      <div class="t-org">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--teal)"><circle cx="12" cy="12" r="10"/></svg>
+        L.L.Bean
+      </div>
+      <div class="t-desc">
+        Delivered high-impact analytics supporting merchandising strategy, inventory planning, and
+        customer insights. Translated complex datasets into clear, actionable business narratives
+        for stakeholders across the organization.
+      </div>
+    </div>
+
+    <div class="t-entry">
+      <div class="t-dot"></div>
+      <div class="t-period">Prior Roles</div>
+      <div class="t-title">Business Analyst &nbsp;→&nbsp; Retail Merchandise Analyst</div>
+      <div class="t-org">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--teal)"><circle cx="12" cy="12" r="10"/></svg>
+        L.L.Bean
+      </div>
+      <div class="t-desc">
+        Bridged retail operations and data analysis — applying deep knowledge of product assortment,
+        projected inventory, and buying cycles to fuel better business decisions through BI tooling
+        and analytical modeling.
+      </div>
+    </div>
+
+    <div class="t-entry">
+      <div class="t-dot"></div>
+      <div class="t-period">Foundation Years</div>
+      <div class="t-title">Merchandising Career &nbsp;→&nbsp; Floor Lead · Merchandise Asst. · Asst. Merchandiser · Retail Merchandiser</div>
+      <div class="t-org">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--teal)"><circle cx="12" cy="12" r="10"/></svg>
+        L.L.Bean
+      </div>
+      <div class="t-desc">
+        Built the foundation that everything else rests on — working directly with customers,
+        learning product and inventory rhythms firsthand, and developing a deep, intuitive sense
+        of how retail decisions play out in the real world. The lens through which all data work
+        has been shaped.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ══════════════════════════════════════════════════ -->
+<section id="skills" class="section">
+  <div class="reveal">
+    <span class="eyebrow">Core Competencies</span>
+    <h2 class="section-h">Areas of<br>expertise</h2>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="sk-icon">📊</div>
+      <div class="sk-title">Data Analytics &amp; Business Intelligence</div>
+      <div class="sk-body">Deep expertise in BI tooling, data modeling, and translating complex datasets into clear business narratives that drive confident decisions at every level of the organization.</div>
+      <div class="sk-track"><div class="sk-fill" data-w="95"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="sk-icon">🛡️</div>
+      <div class="sk-title">Customer Data Stewardship &amp; Privacy</div>
+      <div class="sk-body">End-to-end governance of customer data — including consumer privacy request administration, regulatory compliance, and trustworthy data practices at enterprise scale.</div>
+      <div class="sk-track"><div class="sk-fill" data-w="98"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="sk-icon">🗺️</div>
+      <div class="sk-title">Enterprise Information Management</div>
+      <div class="sk-body">Strategic alignment of data architecture, information quality, and governance across complex multi-stakeholder organizations — making data a reliable, high-value asset.</div>
+      <div class="sk-track"><div class="sk-fill" data-w="93"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="sk-icon">👥</div>
+      <div class="sk-title">People Leadership</div>
+      <div class="sk-body">Empathetic, strategic people manager focused on developing talent and building high-performing analytics teams. Leading with clarity, trust, and a conviction that great outcomes start with great culture.</div>
+      <div class="sk-track"><div class="sk-fill" data-w="90"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="sk-icon">🛍️</div>
+      <div class="sk-title">Specialty Retail &amp; Merchandising</div>
+      <div class="sk-body">Hands-on expertise spanning the full retail spectrum — store operations, assortment planning, buying, and inventory — giving every data recommendation a grounding in business reality.</div>
+      <div class="sk-track"><div class="sk-fill" data-w="97"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="sk-icon">🚀</div>
+      <div class="sk-title">Marketing Analytics &amp; Modernization</div>
+      <div class="sk-body">Experience driving marketing transformation — re-centering customer data as the foundation of modern, measurable strategy and leading cross-functional programs from Day 0 through delivery.</div>
+      <div class="sk-track"><div class="sk-fill" data-w="88"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EDUCATION ════════════════════════════════════════════════ -->
+<section id="education" class="section section-alt">
+  <div class="reveal">
+    <span class="eyebrow">Education</span>
+    <h2 class="section-h">Building the analytical<br>foundation</h2>
+  </div>
+
+  <div class="edu-grid">
+    <div class="edu-card">
+      <span class="edu-badge">Undergraduate</span>
+      <div class="edu-school">The College of William &amp; Mary</div>
+      <div class="edu-degree">Bachelor of Arts</div>
+      <div class="edu-detail">Williamsburg, Virginia</div>
+    </div>
+
+    <div class="edu-card">
+      <span class="edu-badge">Graduate Certificate</span>
+      <div class="edu-school">University of Southern Maine</div>
+      <div class="edu-degree">Certificate of Graduate Studies — Business Analytics</div>
+      <div class="edu-detail">School of Business &nbsp;·&nbsp; 2017</div>
+    </div>
+
+    <div class="edu-card">
+      <span class="edu-badge-inprogress">
+        <div class="badge-dot"></div>
+        Graduate · In Progress
+      </span>
+      <div class="edu-school">Northeastern University</div>
+      <div class="edu-degree">Master of Professional Studies</div>
+      <div class="edu-detail">Roux Institute &nbsp;·&nbsp; Portland, Maine</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ══════════════════════════════════════════════════ -->
+<section id="contact" class="section">
+  <div class="contact-inner">
+    <div class="reveal">
+      <span class="eyebrow">Let's Connect</span>
+      <h2 class="section-h">Get in touch</h2>
+    </div>
+    <p class="contact-body reveal">
+      Analytics and data leader with a background spanning retail operations,
+      business intelligence, enterprise information management, and customer
+      data strategy. I'm always glad to connect with people who are curious
+      about <strong>data-driven work</strong>, the intersection of
+      <strong>technology and human insight</strong>, or the evolving landscape
+      of <strong>customer analytics and privacy</strong>.
+    </p>
+    <div class="contact-btns reveal">
+      <a href="https://www.linkedin.com/in/jjmche/"
+         target="_blank" rel="noopener" class="btn btn-fill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+        Connect on LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════════════ -->
+<footer>
+  <span class="footer-l">Joshua McHenry · Analytics &amp; Data Leader</span>
+  <span class="footer-r">Freeport, Maine</span>
+</footer>
+
+<!-- ═══ SCRIPTS ══════════════════════════════════════════════════ -->
+<script>
+  /* ── Canvas Network Animation ───────────────────────────── */
+  (function () {
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, nodes;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function initNodes() {
+      nodes = Array.from({ length: 72 }, () => ({
+        x:  Math.random() * W,
+        y:  Math.random() * H,
+        vx: (Math.random() - .5) * .38,
+        vy: (Math.random() - .5) * .38,
+        r:  Math.random() * 1.6 + .7
+      }));
+    }
+
+    resize();
+    initNodes();
+    window.addEventListener('resize', () => { resize(); }, { passive: true });
+
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+      const MAX = 125;
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const d  = Math.sqrt(dx * dx + dy * dy);
+          if (d < MAX) {
+            const a = (1 - d / MAX) * .17;
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(0,212,170,${a})`;
+            ctx.lineWidth = .75;
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      nodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,212,170,.55)';
+        ctx.fill();
+      });
+
+      requestAnimationFrame(frame);
+    }
+    frame();
+  })();
+
+  /* ── Sticky Nav ─────────────────────────────────────────── */
+  (function () {
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('stuck', window.scrollY > 45);
+    }, { passive: true });
+  })();
+
+  /* ── Animated Counters ──────────────────────────────────── */
+  (function () {
+    const els = document.querySelectorAll('.stat-num[data-target]');
+    let fired = false;
+
+    function run() {
+      if (fired) return;
+      fired = true;
+      els.forEach(el => {
+        const target  = parseInt(el.dataset.target, 10);
+        const suffix  = el.dataset.suffix || '';
+        const dur     = 1100;
+        const tick    = 14;
+        const steps   = dur / tick;
+        let   current = 0;
+        const inc     = target / steps;
+        const t = setInterval(() => {
+          current += inc;
+          if (current >= target) {
+            el.textContent = target + suffix;
+            clearInterval(t);
+          } else {
+            el.textContent = Math.floor(current) + suffix;
+          }
+        }, tick);
+      });
+    }
+
+    const io = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { run(); io.disconnect(); }
+    }, { threshold: .35 });
+
+    const statsRow = document.querySelector('.hero-stats');
+    if (statsRow) io.observe(statsRow);
+  })();
+
+  /* ── Scroll Reveal ──────────────────────────────────────── */
+  (function () {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        /* kick off skill bars */
+        const fill = e.target.querySelector('.sk-fill');
+        if (fill) fill.style.width = fill.dataset.w + '%';
+      });
+    }, { threshold: .10 });
+
+    document.querySelectorAll(
+      '.reveal, .t-entry, .skill-card, .edu-card, .about-card'
+    ).forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 5) * .07}s`;
+      io.observe(el);
+    });
+  })();
+</script>
+</body>
+</html>
