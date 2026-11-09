@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Joshua McHenry — Data &amp; Analytics Leader</title>
+  <meta name="description" content="Joshua McHenry leads Marketing Data Stewardship &amp; Analytics at L.L.Bean — customer data governance, privacy, and analytics, built on a career that started on the store floor." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Joshua McHenry — Data &amp; Analytics Leader" />
+  <meta property="og:description" content="Customer data governance, privacy, and analytics at L.L.Bean — built on a career that started on the store floor." />
+  <meta property="og:url" content="https://rigbyfab4.github.io/" />
+  <meta name="theme-color" content="#070e1b" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070e1b'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='28' font-weight='700' text-anchor='middle' fill='%2300d4aa'%3EJM%3C/text%3E%3C/svg%3E" />
+  <script>document.documentElement.classList.add('js');</script>
   <style>
     /* ── Reset & Variables ─────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -16,13 +24,24 @@
       --blue:     #4fb8ff;
       --glow:     rgba(0,212,170,0.12);
       --txt:      #dde7f2;
-      --txt-sub:  #6e8aa0;
-      --txt-mute: #3d5568;
+      --txt-sub:  #93a9bb;  /* 7.3:1+ on both backgrounds */
+      --txt-mute: #7d95a8;  /* was #3d5568 (2.3:1, failed WCAG AA) */
       --border:   rgba(255,255,255,0.07);
       --border-h: rgba(0,212,170,0.38);
     }
 
-    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+    a:focus-visible, .btn:focus-visible {
+      outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 6px;
+    }
+    .skip-link {
+      position: absolute; left: -9999px; top: .5rem; z-index: 1000;
+      background: var(--teal); color: #06101f; padding: .5rem 1rem;
+      border-radius: 6px; font-weight: 600; text-decoration: none;
+    }
+    .skip-link:focus { left: .5rem; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -172,19 +191,20 @@
       background: var(--glow); color: var(--teal);
     }
 
-    .hero-stats { display: flex; gap: 3rem; }
-    .stat-num {
-      font-size: 2.4rem; font-weight: 900; line-height: 1;
-      letter-spacing: -1px;
-      background: linear-gradient(130deg, var(--teal), var(--blue));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .hero-facts {
+      list-style: none; display: flex; flex-wrap: wrap; gap: .6rem 2.2rem;
     }
-    .stat-lbl {
-      font-size: .72rem; color: var(--txt-mute);
+    .hero-facts li {
+      font-size: .8rem; color: var(--txt-mute);
       text-transform: uppercase; letter-spacing: 1.2px;
-      margin-top: .15rem;
+      display: flex; align-items: center; gap: .55rem;
     }
+    .hero-facts li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); flex-shrink: 0; align-self: flex-start;
+      margin-top: .4em;
+    }
+    .hero-facts strong { color: var(--txt); font-weight: 600; }
 
     /* ── Section Utilities ─────────────────────────────────── */
     .section { padding: 7rem 5%; }
@@ -246,12 +266,6 @@
       border-bottom: 1px solid var(--border);
     }
     .quote-inner { max-width: 780px; margin: 0 auto; text-align: center; }
-    .q-mark {
-      display: block; font-family: Georgia, serif;
-      font-size: 5rem; line-height: .45;
-      color: var(--teal); opacity: .28;
-      margin-bottom: .75rem;
-    }
     .q-text {
       font-size: clamp(1.35rem, 3.2vw, 2.05rem);
       font-weight: 300; color: var(--txt);
@@ -340,17 +354,7 @@
       font-size: 1.3rem; margin-bottom: 1rem;
     }
     .sk-title { font-size: 1rem; font-weight: 700; margin-bottom: .45rem; line-height: 1.3; }
-    .sk-body { font-size: .84rem; color: var(--txt-sub); line-height: 1.65; margin-bottom: .95rem; }
-    .sk-track {
-      height: 3px; background: rgba(255,255,255,.06);
-      border-radius: 50px; overflow: hidden;
-    }
-    .sk-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--teal), var(--blue));
-      border-radius: 50px; width: 0;
-      transition: width 1.3s cubic-bezier(.4,0,.2,1);
-    }
+    .sk-body { font-size: .84rem; color: var(--txt-sub); line-height: 1.65; }
 
     /* ── Education ─────────────────────────────────────────── */
     .edu-grid {
@@ -419,26 +423,43 @@
     }
     .reveal.in { opacity: 1; transform: translateY(0); }
 
+    /* Content stays visible if JavaScript is off, and nothing slides in
+       for visitors who ask their system for reduced motion. */
+    html:not(.js) .reveal, html:not(.js) .t-entry,
+    html:not(.js) .skill-card, html:not(.js) .edu-card {
+      opacity: 1; transform: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .t-entry, .skill-card, .edu-card, .about-card {
+        opacity: 1 !important; transform: none !important; transition: none !important;
+      }
+      .badge-dot { animation: none; }
+    }
+
     /* ── Responsive ────────────────────────────────────────── */
     @media (max-width: 950px) {
       .about-grid { grid-template-columns: 1fr; gap: 3rem; }
       .skills-grid { grid-template-columns: 1fr 1fr; }
       .edu-grid { grid-template-columns: 1fr; }
-      .hero-stats { gap: 2rem; }
     }
     @media (max-width: 640px) {
-      .nav-links { display: none; }
+      /* Keep the Connect button on phones instead of hiding all navigation */
+      .nav-links { gap: 0; }
+      .nav-links li:not(:last-child) { display: none; }
       .skills-grid { grid-template-columns: 1fr; }
-      .hero-stats { gap: 1.5rem; }
-      .stat-num { font-size: 1.9rem; }
+      .hero-facts { flex-direction: column; gap: .55rem; }
       .hero-name { letter-spacing: -2px; }
+      .hero-role strong { display: block; margin-bottom: .2rem; }
+      .role-sep { display: none; }
+      footer { flex-direction: column; gap: .4rem; text-align: center; }
     }
   </style>
 </head>
 <body>
+<a class="skip-link" href="#about">Skip to content</a>
 
 <!-- ═══ NAV ══════════════════════════════════════════════════ -->
-<nav class="nav" id="nav">
+<nav class="nav" id="nav" aria-label="Main">
   <a href="#" class="nav-logo">Josh <span>McHenry</span></a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
@@ -449,9 +470,10 @@
   </ul>
 </nav>
 
+<main>
 <!-- ═══ HERO ══════════════════════════════════════════════════ -->
 <section id="hero">
-  <canvas id="hero-canvas"></canvas>
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
   <div class="hero-glow-a"></div>
   <div class="hero-glow-b"></div>
 
@@ -462,14 +484,13 @@
     </h1>
 
     <p class="hero-role">
-      <strong>Manager, Marketing Data Stewardship &amp; Analytics</strong>
-      &nbsp;·&nbsp; L.L.Bean &nbsp;·&nbsp; Maine
+      <strong>Manager, Marketing Data Stewardship &amp; Analytics</strong><span class="role-sep"> &nbsp;·&nbsp; </span>L.L.Bean &nbsp;·&nbsp; Maine
     </p>
 
     <p class="hero-pitch">
-      I turn <strong>customer data into competitive strategy</strong> —
-      with the rare perspective of someone who started on the store floor
-      and built up through every layer of the business.
+      I turn <strong>customer data into strategy</strong> — with the
+      perspective of someone who started on the store floor and worked
+      through every layer of the business.
     </p>
 
     <div class="hero-actions">
@@ -483,20 +504,11 @@
       <a href="#contact" class="btn btn-ghost">Get in Touch</a>
     </div>
 
-    <div class="hero-stats">
-      <div>
-        <div class="stat-num" data-target="9" data-suffix="+">0</div>
-        <div class="stat-lbl">Roles Progressed</div>
-      </div>
-      <div>
-        <div class="stat-num" data-target="3" data-suffix="">0</div>
-        <div class="stat-lbl">Academic Credentials</div>
-      </div>
-      <div>
-        <div class="stat-num" data-target="1" data-suffix="">0</div>
-        <div class="stat-lbl">Iconic Brand, Deep Expertise</div>
-      </div>
-    </div>
+    <ul class="hero-facts">
+      <li><span><strong>9 roles</strong>&nbsp;at L.L.Bean</span></li>
+      <li><span>Store floor <strong>→ data leadership</strong></span></li>
+      <li><span><strong>M.P.S. in Analytics</strong>&nbsp;in progress · Northeastern</span></li>
+    </ul>
   </div>
 </section>
 
@@ -513,7 +525,7 @@
         Most analytics leaders come up through data. I came up through
         <strong>people</strong> — through customers, merchandise tables, store
         floors, and the day-to-day reality of specialty retail. That grounding
-        is what makes the difference.
+        shapes how I approach every data problem.
       </p>
       <p>
         I started my career at L.L.Bean in a customer-facing store role,
@@ -530,33 +542,32 @@
         insight come together to center the customer in every decision.
       </p>
       <p>
-        What sets me apart is not just technical skill. It's the ability to
-        <strong>bridge data systems and business reality</strong>, lead teams with
-        empathy and clarity, and turn complex information into decisions that
-        actually move the needle.
+        The thread through all of it: <strong>bridging data systems and business
+        reality</strong>, leading teams with empathy and clarity, and turning
+        complex information into decisions people can act on.
       </p>
     </div>
 
     <div class="about-cards">
       <div class="about-card reveal">
-        <span class="ac-emoji">🎯</span>
+        <span class="ac-emoji" aria-hidden="true">🎯</span>
         <div class="ac-title">Customer Data Strategist</div>
         <div class="ac-body">End-to-end ownership of how customer data is captured, governed, privacy-protected, and activated to drive measurable business outcomes.</div>
       </div>
       <div class="about-card reveal">
-        <span class="ac-emoji">🔒</span>
+        <span class="ac-emoji" aria-hidden="true">🔒</span>
         <div class="ac-title">Privacy &amp; Compliance Leader</div>
-        <div class="ac-body">Expert administration of consumer data privacy processes — compliant, ethical, and trustworthy data practices at enterprise scale.</div>
+        <div class="ac-body">Administration of consumer data privacy processes — compliant, ethical, and trustworthy data practices at enterprise scale.</div>
       </div>
       <div class="about-card reveal">
-        <span class="ac-emoji">🤝</span>
+        <span class="ac-emoji" aria-hidden="true">🤝</span>
         <div class="ac-title">Cross-Functional Connector</div>
         <div class="ac-body">Proven ability to unite marketing, technology, merchandising, and analytics teams around shared goals and customer-centered outcomes.</div>
       </div>
       <div class="about-card reveal">
-        <span class="ac-emoji">🏔️</span>
-        <div class="ac-title">Ground-Up Retail Expert</div>
-        <div class="ac-body">Nine distinct roles across the full retail spectrum — from store operations to executive analytics — context no classroom can teach.</div>
+        <span class="ac-emoji" aria-hidden="true">🏔️</span>
+        <div class="ac-title">Ground-Up Retail Experience</div>
+        <div class="ac-body">Nine roles across the retail spectrum — from store operations to analytics leadership — and the business context that comes with them.</div>
       </div>
     </div>
   </div>
@@ -565,7 +576,7 @@
 <!-- ═══ QUOTE ══════════════════════════════════════════════════ -->
 <div class="quote-wrap">
   <div class="quote-inner reveal">
-    <span class="q-mark">"</span>
+    <span class="eyebrow">Working principle</span>
     <p class="q-text">
       The best data strategy doesn't begin with a dashboard —<br>
       it begins with <em>understanding the people behind the data.</em>
@@ -679,42 +690,36 @@
       <div class="sk-icon">📊</div>
       <div class="sk-title">Data Analytics &amp; Business Intelligence</div>
       <div class="sk-body">Deep expertise in BI tooling, data modeling, and translating complex datasets into clear business narratives that drive confident decisions at every level of the organization.</div>
-      <div class="sk-track"><div class="sk-fill" data-w="95"></div></div>
     </div>
 
     <div class="skill-card">
       <div class="sk-icon">🛡️</div>
       <div class="sk-title">Customer Data Stewardship &amp; Privacy</div>
       <div class="sk-body">End-to-end governance of customer data — including consumer privacy request administration, regulatory compliance, and trustworthy data practices at enterprise scale.</div>
-      <div class="sk-track"><div class="sk-fill" data-w="98"></div></div>
     </div>
 
     <div class="skill-card">
       <div class="sk-icon">🗺️</div>
       <div class="sk-title">Enterprise Information Management</div>
       <div class="sk-body">Strategic alignment of data architecture, information quality, and governance across complex multi-stakeholder organizations — making data a reliable, high-value asset.</div>
-      <div class="sk-track"><div class="sk-fill" data-w="93"></div></div>
     </div>
 
     <div class="skill-card">
       <div class="sk-icon">👥</div>
       <div class="sk-title">People Leadership</div>
       <div class="sk-body">Empathetic, strategic people manager focused on developing talent and building high-performing analytics teams. Leading with clarity, trust, and a conviction that great outcomes start with great culture.</div>
-      <div class="sk-track"><div class="sk-fill" data-w="90"></div></div>
     </div>
 
     <div class="skill-card">
       <div class="sk-icon">🛍️</div>
       <div class="sk-title">Specialty Retail &amp; Merchandising</div>
       <div class="sk-body">Hands-on expertise spanning the full retail spectrum — store operations, assortment planning, buying, and inventory — giving every data recommendation a grounding in business reality.</div>
-      <div class="sk-track"><div class="sk-fill" data-w="97"></div></div>
     </div>
 
     <div class="skill-card">
       <div class="sk-icon">🚀</div>
       <div class="sk-title">Marketing Analytics &amp; Modernization</div>
       <div class="sk-body">Experience driving marketing transformation — re-centering customer data as the foundation of modern, measurable strategy and leading cross-functional programs from Day 0 through delivery.</div>
-      <div class="sk-track"><div class="sk-fill" data-w="88"></div></div>
     </div>
   </div>
 </section>
@@ -743,11 +748,12 @@
 
     <div class="edu-card">
       <span class="edu-badge-inprogress">
-        <div class="badge-dot"></div>
+        <span class="badge-dot" aria-hidden="true"></span>
         Graduate · In Progress
       </span>
       <div class="edu-school">Northeastern University</div>
-      <div class="edu-degree">Master of Professional Studies</div>
+      <div class="edu-degree">Master of Professional Studies — Analytics</div>
+      <div class="edu-detail">Planned concentration: Evidence-Based Leadership</div>
       <div class="edu-detail">Roux Institute &nbsp;·&nbsp; Portland, Maine</div>
     </div>
   </div>
@@ -781,6 +787,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- ═══ FOOTER ══════════════════════════════════════════════════ -->
 <footer>
@@ -790,19 +797,26 @@
 
 <!-- ═══ SCRIPTS ══════════════════════════════════════════════════ -->
 <script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   /* ── Canvas Network Animation ───────────────────────────── */
   (function () {
     const canvas = document.getElementById('hero-canvas');
-    const ctx = canvas.getContext('2d');
-    let W, H, nodes;
+    const hero   = document.getElementById('hero');
+    const ctx    = canvas.getContext('2d');
+    const MAX    = 125;
+    let W, H, nodes, running = false, visible = true;
 
+    /* Size to the hero (not the window) and to the screen's pixel
+       density, so lines stay sharp on high-resolution displays. */
     function resize() {
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-
-    function initNodes() {
-      nodes = Array.from({ length: 72 }, () => ({
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = hero.clientWidth; H = hero.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      /* Fewer nodes on small screens: same look, less work for phones */
+      const count = Math.round(Math.min(72, Math.max(28, W * H / 16000)));
+      nodes = Array.from({ length: count }, () => ({
         x:  Math.random() * W,
         y:  Math.random() * H,
         vx: (Math.random() - .5) * .38,
@@ -811,23 +825,16 @@
       }));
     }
 
-    resize();
-    initNodes();
-    window.addEventListener('resize', () => { resize(); }, { passive: true });
-
-    function frame() {
+    function draw(move) {
       ctx.clearRect(0, 0, W, H);
-      const MAX = 125;
-
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
           const dy = nodes[i].y - nodes[j].y;
           const d  = Math.sqrt(dx * dx + dy * dy);
           if (d < MAX) {
-            const a = (1 - d / MAX) * .17;
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(0,212,170,${a})`;
+            ctx.strokeStyle = `rgba(0,212,170,${(1 - d / MAX) * .17})`;
             ctx.lineWidth = .75;
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
@@ -835,81 +842,69 @@
           }
         }
       }
-
+      ctx.fillStyle = 'rgba(0,212,170,.55)';
       nodes.forEach(n => {
-        n.x += n.vx; n.y += n.vy;
-        if (n.x < 0 || n.x > W) n.vx *= -1;
-        if (n.y < 0 || n.y > H) n.vy *= -1;
+        if (move) {
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0 || n.x > W) n.vx *= -1;
+          if (n.y < 0 || n.y > H) n.vy *= -1;
+        }
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,212,170,.55)';
         ctx.fill();
       });
+    }
 
+    function frame() {
+      if (!running) return;
+      draw(true);
       requestAnimationFrame(frame);
     }
-    frame();
+
+    /* Animate only while the hero is on screen and the tab is visible */
+    function update() {
+      const should = !reduceMotion && visible && !document.hidden;
+      if (should && !running) { running = true; requestAnimationFrame(frame); }
+      if (!should) running = false;
+    }
+
+    resize();
+    draw(false);   /* a still frame for reduced-motion visitors */
+    let t;
+    window.addEventListener('resize', () => {
+      clearTimeout(t);
+      t = setTimeout(() => { resize(); draw(false); }, 150);
+    }, { passive: true });
+    document.addEventListener('visibilitychange', update);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(e => { visible = e[0].isIntersecting; update(); }).observe(hero);
+    }
+    update();
   })();
 
   /* ── Sticky Nav ─────────────────────────────────────────── */
   (function () {
     const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('stuck', window.scrollY > 45);
-    }, { passive: true });
-  })();
-
-  /* ── Animated Counters ──────────────────────────────────── */
-  (function () {
-    const els = document.querySelectorAll('.stat-num[data-target]');
-    let fired = false;
-
-    function run() {
-      if (fired) return;
-      fired = true;
-      els.forEach(el => {
-        const target  = parseInt(el.dataset.target, 10);
-        const suffix  = el.dataset.suffix || '';
-        const dur     = 1100;
-        const tick    = 14;
-        const steps   = dur / tick;
-        let   current = 0;
-        const inc     = target / steps;
-        const t = setInterval(() => {
-          current += inc;
-          if (current >= target) {
-            el.textContent = target + suffix;
-            clearInterval(t);
-          } else {
-            el.textContent = Math.floor(current) + suffix;
-          }
-        }, tick);
-      });
-    }
-
-    const io = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) { run(); io.disconnect(); }
-    }, { threshold: .35 });
-
-    const statsRow = document.querySelector('.hero-stats');
-    if (statsRow) io.observe(statsRow);
+    const onScroll = () => nav.classList.toggle('stuck', window.scrollY > 45);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   })();
 
   /* ── Scroll Reveal ──────────────────────────────────────── */
   (function () {
+    const els = document.querySelectorAll('.reveal, .t-entry, .skill-card, .edu-card, .about-card');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('in'));
+      return;
+    }
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
         e.target.classList.add('in');
-        /* kick off skill bars */
-        const fill = e.target.querySelector('.sk-fill');
-        if (fill) fill.style.width = fill.dataset.w + '%';
+        io.unobserve(e.target);
       });
     }, { threshold: .10 });
-
-    document.querySelectorAll(
-      '.reveal, .t-entry, .skill-card, .edu-card, .about-card'
-    ).forEach((el, i) => {
+    els.forEach((el, i) => {
       el.style.transitionDelay = `${(i % 5) * .07}s`;
       io.observe(el);
     });
